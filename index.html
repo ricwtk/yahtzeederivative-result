@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css">
+  </head>
+  
+  <body>
+    <div id="root">
+      <v-app>
+        <v-container fluid>
+          <v-layout column fill-height>
+            <v-tabs fixed-tabs v-model='tab' class='white'>
+              <v-tab v-for='t in all_tabs' :key='t.key'>{{ t.name }}</v-tab>
+            </v-tabs>
+            <v-tabs-items v-model='tab' class='white px-4 fill-height'>
+              <v-tab-item>
+                <v-data-table :headers="result_summary_header" :items="result_summary_items" :rows-per-page-items='[{"text":"$vuetify.dataIterator.rowsPerPageAll","value":-1},25,10,5]'>
+                  <template v-slot:items="props">
+                    <tr>
+                      <td><v-icon>{{ 'mdi-' + props.item.icon }}</v-icon></td>
+                      <td>{{ props.item.name }}</td>
+                      <td v-for="g in props.item.games" class="text-xs-center">{{ g }}</td>
+                      <td class="font-weight-bold text-xs-center">{{ props.item.games.reduce((acc,val) => acc + val, 0) }}</td>
+                    </tr>
+                  </template>
+                </v-data-table>
+              </v-tab-item>
+              <v-tab-item>
+                <v-select label='Player' :items='this.all_results.map(x => x.name)' box class='my-2' v-model='selected_player'></v-select>
+                <v-expansion-panel>
+                  <v-expansion-panel-content v-for='g,i in current_player.games' :keys='i'>
+                    <template v-slot:header>
+                      <div>Game {{ i+1 }}</div>
+                    </template>
+                    <v-data-table>
+                    </v-data-table>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-tab-item>
+            </v-tabs-items>
+          </v-layout>
+        </v-container>
+      </v-app>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
