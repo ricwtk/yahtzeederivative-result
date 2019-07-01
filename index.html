@@ -29,6 +29,21 @@
                 </v-data-table>
               </v-tab-item>
               <v-tab-item>
+                <v-card>
+                  <!-- <v-card-title>Legend</v-card-title> -->
+                  <v-card-text>
+                    <v-layout column align-center>
+                      <v-flex>
+                        <v-layout row>
+                          <v-icon large v-for='x,i in Array(5)' :color='[1,4].includes(i) ? "red" : "green"'>{{ 'mdi-dice-' + Math.ceil(Math.random()*6) }}</v-icon>
+                        </v-layout>
+                      </v-flex>
+                      <v-flex>
+                        Green dice denotes the dice to be kept and red dice denotes the dice to be rerolled. 
+                      </v-flex>
+                    </v-layout>
+                  </v-card-text>
+                </v-card>
                 <v-select label='Player' :items='all_results.map(x => x.name)' box class='my-2' v-model='selected_player'></v-select>
                 <v-list>
                   <v-list-group v-for='g,i in current_player.games' :key='i'>

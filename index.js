@@ -8,7 +8,7 @@ var app = new Vue({
       key: 'individual',
       name: 'Group result'
     }],
-    tab: null,
+    tab: 1,
     all_results: [],
     selected_player: null
   },
