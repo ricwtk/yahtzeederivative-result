@@ -23,14 +23,13 @@
                       <td><v-icon>{{ 'mdi-' + props.item.icon }}</v-icon></td>
                       <td>{{ props.item.name }}</td>
                       <td v-for="g in props.item.games" class="text-xs-center">{{ g }}</td>
-                      <td class="font-weight-bold text-xs-center">{{ props.item.games.reduce((acc,val) => acc + val, 0) }}</td>
+                      <td class="font-weight-bold text-xs-center">{{ props.item.total }}</td>
                     </tr>
                   </template>
                 </v-data-table>
               </v-tab-item>
               <v-tab-item>
                 <v-card>
-                  <!-- <v-card-title>Legend</v-card-title> -->
                   <v-card-text>
                     <v-layout column align-center>
                       <v-flex>

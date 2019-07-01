@@ -8,7 +8,7 @@ var app = new Vue({
       key: 'individual',
       name: 'Group result'
     }],
-    tab: 1,
+    tab: null,
     all_results: [],
     selected_player: null
   },
@@ -19,18 +19,22 @@ var app = new Vue({
         if (game_num > acc) acc = game_num;
         return acc
       }, 0);
-      let h = [...Array(max_game_num).keys()].map(x => ({ text: `Game ${x+1}`, value: `${x}`, align: 'center' }));
-      h.splice(0,0,{ text: 'Player', value: 'player' });
+      let h = [...Array(max_game_num).keys()].map(x => ({ text: `Game ${x+1}`, value: `games[${x}]`, align: 'center' }));
+      h.splice(0,0,{ text: 'Player', value: 'name' });
       h.splice(0,0,{ text: 'Icon', value: 'icon' });
       h.push({ text: 'Total', value: 'total', align: 'center' });
       return h;
     },
     result_summary_items: function () {
-      return this.all_results.map(x => ({
-        name: x.name,
-        icon: x.icon,
-        games: [...Array(this.result_summary_header.length-2).keys()].map(i => x.games[i] ? this.getPoints(x.games[i].rolled[x.games[i].rolled.length - 1]) : 0)
-      }));
+      return this.all_results.map(x => {
+        let item = {
+          name: x.name,
+          icon: x.icon,
+          games: [...Array(this.result_summary_header.length-3).keys()].map(i => x.games[i] ? this.getPoints(x.games[i].rolled[x.games[i].rolled.length - 1]) : 0)
+        };
+        item.total = item.games.reduce((acc,val) => acc + val, 0)
+        return item;
+      });
     },
     current_player: function () {
       let c_ai = this.all_results.find(x => x.name == this.selected_player);
@@ -56,7 +60,6 @@ var app = new Vue({
         });
     },
     getPoints: function (dice_face) {
-      console.log(dice_face);
       let points = dice_face ? dice_face.reduce((acc, v) => acc + v, 0) : 0;
       if (points !== 0) {
         let freq = Array(6);
