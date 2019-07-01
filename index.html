@@ -29,16 +29,38 @@
                 </v-data-table>
               </v-tab-item>
               <v-tab-item>
-                <v-select label='Player' :items='this.all_results.map(x => x.name)' box class='my-2' v-model='selected_player'></v-select>
-                <v-expansion-panel>
-                  <v-expansion-panel-content v-for='g,i in current_player.games' :keys='i'>
-                    <template v-slot:header>
-                      <div>Game {{ i+1 }}</div>
+                <v-select label='Player' :items='all_results.map(x => x.name)' box class='my-2' v-model='selected_player'></v-select>
+                <v-list>
+                  <v-list-group v-for='g,i in current_player.games' :key='i'>
+                    <template v-slot:activator>
+                      <v-layout column>
+                        <v-list-tile>
+                          <v-list-tile-content>
+                            <v-list-tile-title>Game {{ i + 1 }}</v-list-tile-title>
+                          </v-list-tile-content>
+                          <v-list-tile-action>
+                            <v-list-tile-action-text>{{ getPoints(g.rolled[g.rolled.length - 1]) }}</v-list-tile-action-text>
+                          </v-list-tile-action>
+                        </v-list-tile>
+                      </v-layout>
                     </template>
-                    <v-data-table>
-                    </v-data-table>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
+                    <v-list-tile v-for='single,j in g.rolled' :key='j' @click=''>
+                      <v-list-tile-avatar>
+                        <v-icon>{{ 'mdi-numeric-' + j + '-box-outline' }}</v-icon>
+                      </v-list-tile-avatar>
+                      <v-list-tile-content>
+                        <v-list-tile-title>
+                          <v-icon v-for='s,k in single'
+                            :color='g.reroll_index[j] ? g.reroll_index[j].includes(k) ? "red" : "green" : "green"'
+                          >{{ 'mdi-dice-' + s }}</v-icon>
+                        </v-list-tile-title>
+                      </v-list-tile-content>
+                      <v-list-tile-action>
+                        <v-list-tile-action-text>{{ getPoints(single) }}</v-list-tile-action-text>
+                      </v-list-tile-action>
+                    </v-list-tile>
+                  </v-list-group>
+                </v-list>
               </v-tab-item>
             </v-tabs-items>
           </v-layout>

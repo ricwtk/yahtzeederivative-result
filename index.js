@@ -56,6 +56,7 @@ var app = new Vue({
         });
     },
     getPoints: function (dice_face) {
+      console.log(dice_face);
       let points = dice_face ? dice_face.reduce((acc, v) => acc + v, 0) : 0;
       if (points !== 0) {
         let freq = Array(6);
