@@ -44,6 +44,30 @@
                   </v-card-text>
                 </v-card>
                 <v-select label='Player' :items='all_results.map(x => x.name)' box class='my-2' v-model='selected_player'></v-select>
+                <v-layout justify-center>
+                  <v-flex xs12 sm8 md5 lg4 xl3>
+                    <v-card class='elevation-2 ma-2'>
+                      <v-list dense>
+                        <v-list-tile>
+                          <v-list-tile-content>Name</v-list-tile-content>
+                          <v-list-tile-content class='align-end'>{{ current_player.name }}</v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile>
+                          <v-list-tile-content>Module</v-list-tile-content>
+                          <v-list-tile-content class='align-end'>{{ current_player.module }}</v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile>
+                          <v-list-tile-content>Icon</v-list-tile-content>
+                          <v-list-tile-content class='align-end'><v-icon>{{ 'mdi-' + current_player.icon }}</v-icon></v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile v-for='m,i in current_player.members' :key='i'>
+                          <v-list-tile-content>{{ i == 0 ? 'Members' : ''}}</v-list-tile-content>
+                          <v-list-tile-content class='align-end'>{{ m }}</v-list-tile-content>
+                        </v-list-tile>
+                      </v-list>
+                    </v-card>
+                  </v-flex>
+                </v-layout>
                 <v-list>
                   <v-list-group v-for='g,i in current_player.games' :key='i'>
                     <template v-slot:activator>
